@@ -7,11 +7,8 @@ import {
   useTheme,
 } from '@react-navigation/native';
 // eslint-disable-next-line import/no-unresolved
-import { ScreenContainer } from 'react-native-screens';
 
-import SafeAreaProviderCompat from './SafeAreaProviderCompat';
 import ResourceSavingScene from './ResourceSavingScene';
-import BottomTabBar from './BottomTabBar';
 import type {
   BottomTabNavigationConfig,
   BottomTabDescriptorMap,
@@ -71,7 +68,7 @@ export default class BottomTabView extends React.Component<Props, State> {
 
   private renderTabBar = () => {
     const {
-      tabBar = (props: BottomTabBarProps) => <BottomTabBar {...props} />,
+      tabBar = () => <View/>,
       tabBarOptions,
       state,
       navigation,
@@ -86,15 +83,14 @@ export default class BottomTabView extends React.Component<Props, State> {
   };
 
   render() {
-    const { state, descriptors, navigation, lazy } = this.props;
+    const { state, descriptors, navigation, lazy, containerStyle } = this.props;
     const { routes } = state;
     const { loaded } = this.state;
 
     return (
       <NavigationHelpersContext.Provider value={navigation}>
-        <SafeAreaProviderCompat>
-          <View style={styles.container}>
-            <ScreenContainer style={styles.pages}>
+          <View style={[styles.container, containerStyle]}>
+            <View style={styles.pages}>
               {routes.map((route, index) => {
                 const descriptor = descriptors[route.key];
                 const { unmountOnBlur } = descriptor.options;
@@ -121,10 +117,9 @@ export default class BottomTabView extends React.Component<Props, State> {
                   </ResourceSavingScene>
                 );
               })}
-            </ScreenContainer>
+            </View>
             {this.renderTabBar()}
           </View>
-        </SafeAreaProviderCompat>
       </NavigationHelpersContext.Provider>
     );
   }
