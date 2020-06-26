@@ -13,7 +13,6 @@ import type {
   BottomTabNavigationConfig,
   BottomTabDescriptorMap,
   BottomTabNavigationHelpers,
-  BottomTabBarProps,
 } from '../types';
 
 type Props = BottomTabNavigationConfig & {
